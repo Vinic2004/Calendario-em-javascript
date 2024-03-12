@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calendario</title>
+
+    <style>
+
+        .dia{
+            border: 0.5px solid black;
+            border-radius: 7px;
+
+            margin: 5px;
+            width: 50px;
+            height: 50px;
+        }
+
+        #calendario{
+            display: flex;
+            flex-flow: wrap;
+            width: 434px;
+        }
+        
+        #myCale{
+            border: 1px solid black;
+            width: 434px;
+            padding: 10px;
+        }
+
+        #myCale label{
+            margin-left: 39%;
+        }
+    </style>
+</head>
+<body>
+    <div id="myCale">
+
+        <a onclick="mes_anterior()">ante</a> <label id="mes_ano"></label> <a onclick="proximo_mes()">proxi</a>
+        
+        <div id="calendario"></div>
+
+    </div>
+
+    <script>
+
+        const divisao_calendario = document.querySelector('#calendario')
+
+        var meses_do_ano = [
+            "Janeiro", "Fevereiro", "Março", "abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ]
+        var event_new_mes = 0
+        function cal(){
+
+            const dia_hoje = new Date().getDate()
+            const mes_hoje = new Date().getMonth()
+            const ano_hoje = new Date().getFullYear()
+
+            const ultimo_dia_mes_passado = new Date(ano_hoje, mes_hoje + event_new_mes, 0).getDay()
+            const mes_event = new Date(ano_hoje, mes_hoje + event_new_mes, dia_hoje).getMonth()
+
+            divisao_calendario.innerHTML = ''
+
+            for(let i = 0; i <= new Date(ano_hoje, (mes_hoje+1) + event_new_mes, 0).getDate() + ultimo_dia_mes_passado; i++){
+                
+                const div = document.createElement('div')
+                div.classList.add('dia')
+
+                if(i <= ultimo_dia_mes_passado){
+                    div.classList.add('dias_mes_passado')
+                } else {
+                    div.textContent = i - ultimo_dia_mes_passado
+                }
+
+                document.querySelector('#mes_ano').textContent = meses_do_ano[mes_event]
+
+            divisao_calendario.appendChild(div)
+                
+            }
+
+        }
+
+        cal()
+        function proximo_mes(){
+            event_new_mes++
+            cal()
+        }
+
+        function mes_anterior(){
+            event_new_mes--
+            cal()
+        }
+        
+    </script>
+    
+</body>
+</html>
